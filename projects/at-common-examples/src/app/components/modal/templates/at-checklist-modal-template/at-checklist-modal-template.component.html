@@ -1,0 +1,33 @@
+<at-h3 mat-dialog-title>vælg dem du kan lide</at-h3>
+<mat-dialog-content>
+  <mat-selection-list [formControl]="selectedItemsControl">
+    <mat-list-option
+      *ngFor="let item of data.items"
+      [id]="'check-box-list-' + kebabText(item.displayText)"
+      togglePosition="before"
+      [selected]="item.selected"
+      [disabled]="item.disabled"
+      [value]="item.id"
+      class="custom-height"
+      color="primary">
+      <at-body1>
+        {{ item.displayText }}
+      </at-body1>
+    </mat-list-option>
+  </mat-selection-list>
+
+  <mat-dialog-actions align="end">
+    <button mat-flat-button class="btn" [style.height]="'44px'" [type]="'button'" mat-dialog-close>
+      {{ data.fortrydButton }}
+    </button>
+    <button
+      mat-flat-button
+      class="btn"
+      color="primary"
+      [style.height]="'44px'"
+      [type]="'button'"
+      (click)="closeDialog()">
+      {{ data.tilfoejButton }}
+    </button>
+  </mat-dialog-actions>
+</mat-dialog-content>

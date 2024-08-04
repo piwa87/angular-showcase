@@ -1,0 +1,7 @@
+# Ignore these file types:
+**/*.yaml
+**/*.yml
+**/*.md
+test.ts
+
+

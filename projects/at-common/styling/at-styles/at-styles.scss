@@ -1,0 +1,9 @@
+/* This is the main at-styles file that combines all the necessary imports.
+    By importing this file in the consuming application, all the styles from
+    different files will be included. */
+
+@import "./colors";
+@import "./header-styles";
+@import "./margins";
+@import "./paddings";
+@import "./widths";

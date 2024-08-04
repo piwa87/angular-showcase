@@ -1,0 +1,5 @@
+<mat-form-field appearance="fill" hideRequiredMarker>
+  <mat-label>Email</mat-label>
+  <input matInput [formControlName]="fcName" type="email" />
+  <mat-error>{{ getErrors() }}</mat-error>
+</mat-form-field>

@@ -1,0 +1,65 @@
+<present-this legend="api example - GET">
+  <form [formGroup]="fg">
+    <at-text-input label="Comment ID [1-500]" fcName="commentId" />
+  </form>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="getComment(this.fg.controls.commentId.value!)"
+  >
+    GET
+  </button>
+
+  <pre>{{ singleComment | json }}</pre>
+  <mat-divider></mat-divider>
+  <button mat-raised-button color="primary" (click)="getAllComments()">
+    GET ALL
+  </button>
+  <pre class="comment-list-box">{{ allComments | json }}</pre>
+  <button mat-raised-button color="primary" (click)="clearAllComments()">
+    CLEAR DATA
+  </button>
+</present-this>
+
+<present-this legend="api example - POST & PUT">
+  <div>
+    Comment to be posted:
+    <pre>{{ exampleComment | json }}</pre>
+    <form [formGroup]="fg">
+      <at-text-input label="Comment body" fcName="commentBody" />
+    </form>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="postComment(exampleComment)"
+    >
+      POST
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="updateComment(exampleComment.id, exampleComment)"
+    >
+      UPDATE
+    </button>
+  </div>
+  <br />
+  <div>
+    Response from server:
+    <pre>{{ responseCommentFromServer | json }}</pre>
+  </div>
+</present-this>
+
+<present-this legend="api example - DELETE">
+  <form [formGroup]="fg">
+    <at-text-input label="Delete comment by ID" fcName="commentId" />
+  </form>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="deleteComment(this.fg.controls.commentId.value!)"
+  >
+    DELETE
+  </button>
+  <pre>{{ deletedCommentStatus | json }}</pre>
+</present-this>

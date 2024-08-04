@@ -1,0 +1,50 @@
+<form [formGroup]="fg" (ngSubmit)="onSubmit()">
+  <present-this legend="at-text-input - navn & efternavn">
+    <at-text-input
+      fcName="navn"
+      label="Navn"
+      [errors]="fg.controls.navn.errors"
+    />
+    <at-text-input
+      fcName="efternavn"
+      label="Efternavn"
+      [errors]="fg.controls.efternavn.errors"
+    />
+  </present-this>
+
+  <present-this legend="at-text-input-custom-errors - fritekst">
+    <at-text-input-custom-errors
+      fcName="fritekst"
+      label="Fritekst"
+      [errors]="fg.controls.fritekst.errors"
+    />
+  </present-this>
+
+  <present-this legend="at-email-input - email">
+    <at-email-input
+      fcName="email"
+      label="Email"
+      [errors]="fg.controls.email.errors"
+    />
+  </present-this>
+
+  <present-this legend="at-radio-group - favorit farve">
+    <at-radio-group fcName="favoritFarve" [options]="favoritFarveItems" />
+  </present-this>
+
+  <present-this legend="at-select - favorit film">
+    <at-select
+      fcName="favoritFilm"
+      label="Favorite Film"
+      [items]="favoriteFilmItems"
+      [errors]="fg.controls.favoritFilm.errors"
+    />
+  </present-this>
+
+  <div class="padding-top-10">
+    <button mat-raised-button color="primary">SUBMIT</button>
+  </div>
+</form>
+
+<p>Form value:</p>
+<pre>{{ this.fg.value | json }}</pre>

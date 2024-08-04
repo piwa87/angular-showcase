@@ -1,0 +1,22 @@
+.centered-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 24px 0px;
+}
+
+.last-icon {
+  margin-left: auto;
+}
+
+.at-icon-header {
+  margin-top: 8px;
+}
+
+.mat-mdc-menu-item {
+  justify-content: flex-end;
+}
+
+.no-network {
+  -webkit-text-fill-color: $at-red;
+}

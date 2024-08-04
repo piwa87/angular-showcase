@@ -1,0 +1,9 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "../../at-common/styling/at-theme/at-custom-theme.scss"; // at-custom-theme from @at-common/styling
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+}

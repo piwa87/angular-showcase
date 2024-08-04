@@ -1,0 +1,80 @@
+@use "@angular/material" as mat;
+
+@import url("https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap");
+$main-font: "'Mulish', sans-serif";
+
+/* 
+  The typography hierarchy is defined in the $at-typography variable. Defined levels correspond to native HTML elements:
+  This is Angular Material 2, which is native for Angular Material 17.x.x
+
+  Name:           HTML Element:         Description:
+
+  headline-5      <h1>                  Section heading corresponding to the <h1> tag.
+  headline-6      <h2>                  Section heading corresponding to the <h2> tag.
+  subtitle-1      <h3>                  Section heading corresponding to the <h3> tag.
+  subtitle-2      none                  Section heading corresponding to the <h4> tag.
+  body-1          <h4>                  Base body text.
+  body-2          Body text             Secondary body text.
+  caption         none                  Smaller body and hint text.	
+  button          none                  Buttons and anchors.  
+  overline        none                  Overline text (e.g., captions).
+
+**/
+
+$at-typography: mat.define-typography-config(
+  $font-family: $main-font,
+  $headline-5:
+    mat.define-typography-level(
+      $font-weight: 700,
+      $font-size: 38px,
+      $line-height: 48px,
+    ),
+  $headline-6:
+    mat.define-typography-level(
+      $font-weight: 700,
+      $font-size: 28px,
+      $line-height: 38px,
+    ),
+  $subtitle-1:
+    mat.define-typography-level(
+      $font-weight: 700,
+      $font-size: 20px,
+      $line-height: 28px,
+    ),
+  $subtitle-2:
+    mat.define-typography-level(
+      $font-weight: 600,
+      $font-size: 20px,
+      $line-height: 28px,
+    ),
+  $body-1:
+    mat.define-typography-level(
+      $font-weight: 400,
+      $font-size: 15px,
+      $line-height: 24px,
+    ),
+  $body-2:
+    mat.define-typography-level(
+      $font-weight: 400,
+      $font-size: 15px,
+      $line-height: 24px,
+    ),
+  $caption:
+    mat.define-typography-level(
+      $font-weight: 400,
+      $font-size: 12px,
+      $line-height: 20px,
+    ),
+  $button:
+    mat.define-typography-level(
+      $font-weight: 500,
+      $font-size: 14px,
+      $line-height: 36px,
+    ),
+  $overline:
+    mat.define-typography-level(
+      $font-weight: 400,
+      $font-size: 12px,
+      $line-height: 12px,
+    ),
+);

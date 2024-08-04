@@ -1,0 +1,76 @@
+$primary-color: #003087;
+$secondary-color: #1e1e1e;
+
+$accent-color: #00c7b1;
+$at-red: #c8102e;
+$disabled-color: #ccc;
+$divider-color: #0000001f;
+$icon-grey: #776e64;
+$info-color: #1b86c3;
+$info-light: #e2f2fb;
+$label-color: #999;
+$open-accordion-color: #e5eaf3;
+$open-accordion-hover-color: #bfcbe1;
+$success-color: #358000;
+$warning-color: #febb30;
+$white-color: #ffffff;
+
+.at-primary-color {
+  color: $primary-color;
+}
+
+.at-secondary-color {
+  color: $secondary-color;
+}
+
+.at-accent-color {
+  color: $accent-color;
+}
+
+.at-red-color {
+  color: $at-red;
+}
+
+.at-disabled-color {
+  color: $disabled-color;
+}
+
+.at-divider-color {
+  color: $divider-color;
+}
+
+.at-icon-grey {
+  color: $icon-grey;
+}
+
+.at-info-color {
+  color: $info-color;
+}
+
+.at-info-light {
+  color: $info-light;
+}
+
+.at-label-color {
+  color: $label-color;
+}
+
+.at-open-accordion-color {
+  color: $open-accordion-color;
+}
+
+.at-open-accordion-hover-color {
+  color: $open-accordion-hover-color;
+}
+
+.at-success-color {
+  color: $success-color;
+}
+
+.at-warning-color {
+  color: $warning-color;
+}
+
+.at-white-color {
+  color: $white-color;
+}

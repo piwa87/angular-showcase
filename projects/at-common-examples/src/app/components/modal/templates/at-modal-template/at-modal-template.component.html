@@ -1,0 +1,10 @@
+<at-h3 mat-dialog-title class="at-modal-header">
+  {{ data.title }}
+</at-h3>
+<at-body1 mat-dialog-content *ngIf="!data.innerHTML" [innerText]="data.content" class="at-modal-body" />
+<at-body1 mat-dialog-content *ngIf="data.innerHTML" [innerHtml]="data.content" class="at-modal-body" />
+<mat-dialog-actions align="end">
+  <button mat-flat-button class="btn" color="primary" [style.height]="'44px'" [type]="'button'" mat-dialog-close>
+    {{ data.buttonText }}
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,30 @@
+<at-h3 mat-dialog-title class="at-modal-header">
+  {{ data.title }}
+</at-h3>
+<at-body1 mat-dialog-content [innerText]="data.content" class="at-modal-body" />
+
+<mat-form-field
+  hideRequiredMarker
+  mat-dialog-content
+  *ngIf="isOptionsEmpty"
+  [class.invalid]="selectFormControl.invalid && selectFormControl.touched">
+  <mat-label>{{ data.selectLabel }}</mat-label>
+  <mat-select [id]="getIdString('selector')" [formControl]="selectFormControl" (selectionChange)="(isOptionsEmpty)">
+    <mat-option
+      *ngFor="let option of data.selectOptions"
+      [id]="getIdString('selector-value', option.value)"
+      [value]="option.key">
+      {{ option.value }}
+    </mat-option>
+  </mat-select>
+  <mat-error *ngIf="selectFormControl.hasError('required')">required</mat-error>
+</mat-form-field>
+
+<mat-dialog-actions align="end">
+  <button mat-flat-button class="btn" [style.height]="'44px'" [type]="'button'" mat-dialog-close>
+    {{ data.btnCancelText }}
+  </button>
+  <button mat-flat-button color="primary" [disabled]="selectFormControl.invalid" class="btn" (click)="closeDialog()">
+    {{ data.btnConfirmText }}
+  </button>
+</mat-dialog-actions>

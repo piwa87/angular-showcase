@@ -1,0 +1,18 @@
+<form [formGroup]="fg" (ngSubmit)="onSubmit()">
+  <present-this legend="at-form-navn-rolle - navn & rolle multiple field input">
+    <at-form-navn-rolle fgName="navnRolleGroup" [errors]="navnRolleErrors" />
+  </present-this>
+
+  <present-this
+    legend="at-email-input - showing that mixed multiple and single forms are working"
+  >
+    <at-email-input fcName="email" [errors]="fg.controls.email.errors" />
+  </present-this>
+
+  <div class="padding-top-10">
+    <button mat-button mat-raised-button color="primary">SUBMIT</button>
+  </div>
+</form>
+
+<h5>Form value:</h5>
+<pre>{{ this.fg.value | json }}</pre>

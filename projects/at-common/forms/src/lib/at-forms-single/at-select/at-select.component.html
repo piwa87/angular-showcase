@@ -1,0 +1,11 @@
+<mat-form-field appearance="fill" hideRequiredMarker>
+  <mat-label>{{ label }}</mat-label>
+  <mat-select [formControlName]="fcName">
+    @if (enableEmptyOption) {
+    <mat-option [value]="null"></mat-option>
+    } @for (item of items; track $index) {
+    <mat-option [value]="item.key">{{ item.value }}</mat-option>
+    }
+  </mat-select>
+  <mat-error>{{ getErrors() }}</mat-error>
+</mat-form-field>

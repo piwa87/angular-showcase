@@ -1,0 +1,10 @@
+@if (isAuthenticated$ | async) {
+<h3>You are now logged in.</h3>
+<button mat-raised-button (click)="logout()">LOGOUT</button>
+
+<p>
+  <button mat-raised-button (click)="callApi()">
+    Test API call with token
+  </button>
+</p>
+}

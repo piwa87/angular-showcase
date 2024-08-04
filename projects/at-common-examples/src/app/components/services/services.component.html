@@ -1,0 +1,48 @@
+<present-this legend="local storage example">
+  <div>
+    In this example, we will fetch all comments from the API and save them in
+    local storage. Our `LocalStorageService` provides several useful methods to
+    manage data efficiently:
+    <ul>
+      <li>
+        <strong>save(key: string, data: T): void</strong>: Saves data to local
+        storage with a specified key.
+      </li>
+      <li>
+        <strong>load(key: string): T | null</strong>: Loads data from local
+        storage by the specified key. Returns null if the key doesn't exist.
+      </li>
+      <li>
+        <strong>delete(key: string): void</strong>: Deletes the data associated
+        with the specified key from local storage.
+      </li>
+      <li>
+        <strong>hasData(key: string): boolean</strong>: Checks if there is data
+        associated with the specified key in local storage.
+      </li>
+      <li>
+        <strong>clear(): void</strong>: Clears all data from local storage.
+      </li>
+    </ul>
+  </div>
+
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="getAllCommentsAndSaveInLocalStorage()"
+  >
+    GET ALL COMMENTS
+  </button>
+
+  <button mat-raised-button color="secondary" (click)="checkComments()">
+    ARE COMMENTS IN LOCAL STORAGE?
+  </button>
+
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="clearCommentsFromLocalStorage()"
+  >
+    CLEAR LOCAL STORAGE
+  </button>
+</present-this>

@@ -1,0 +1,41 @@
+@use "@angular/material" as mat;
+
+$primary-color: #003087;
+$primary-light: #536dfc;
+$primary-dark: #002e70;
+$primary-contrast: #ffffff;
+
+$at-primary-palette: mat.define-palette(
+  (
+    50: $primary-light,
+    100: $primary-light,
+    200: $primary-light,
+    300: $primary-color,
+    400: $primary-color,
+    500: $primary-color,
+    600: $primary-dark,
+    700: $primary-dark,
+    800: $primary-dark,
+    900: $primary-dark,
+    A100: $primary-light,
+    A200: $primary-light,
+    A400: $primary-color,
+    A700: $primary-dark,
+    contrast: (
+      50: $primary-contrast,
+      100: $primary-contrast,
+      200: $primary-contrast,
+      300: $primary-contrast,
+      400: $primary-contrast,
+      500: $primary-contrast,
+      600: $primary-contrast,
+      700: $primary-contrast,
+      800: $primary-contrast,
+      900: $primary-contrast,
+      A100: $primary-contrast,
+      A200: $primary-contrast,
+      A400: $primary-contrast,
+      A700: $primary-contrast,
+    ),
+  )
+);

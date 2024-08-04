@@ -1,0 +1,13 @@
+<div [formGroupName]="fgName">
+  <mat-form-field appearance="fill" hideRequiredMarker>
+    <mat-label>Navn</mat-label>
+    <input matInput placeholder="Navn" formControlName="navn" />
+    <mat-error>{{ getErrors("navn") }}</mat-error>
+  </mat-form-field>
+  <br />
+  <mat-form-field appearance="fill" hideRequiredMarker>
+    <mat-label>Rolle</mat-label>
+    <input matInput placeholder="Rolle" formControlName="rolle" />
+    <mat-error>{{ getErrors("rolle") }}</mat-error>
+  </mat-form-field>
+</div>

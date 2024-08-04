@@ -1,0 +1,133 @@
+<div>
+  <div class="header">
+    <p>Check if two dates are the same</p>
+    <button
+      mat-button
+      mat-raised-button
+      color="primary"
+      (click)="checkIsSameDate()"
+    >
+      SUBMIT
+    </button>
+  </div>
+  <mat-form-field appearance="fill">
+    <mat-label>Date 1</mat-label>
+    <input matInput [matDatepicker]="picker1" [formControl]="date1" />
+    <mat-datepicker-toggle matSuffix [for]="picker1" />
+    <mat-datepicker #picker1 />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Date 2</mat-label>
+    <input matInput [matDatepicker]="picker2" [formControl]="date2" />
+    <mat-datepicker-toggle matSuffix [for]="picker2" />
+    <mat-datepicker #picker2 />
+  </mat-form-field>
+
+  <pre>{{ isSameDateResult | json }}</pre>
+</div>
+<mat-divider />
+<div>
+  <div class="header">
+    <p>Get next day and previous date</p>
+    <button
+      mat-button
+      mat-raised-button
+      color="primary"
+      (click)="calculateNextPreviousDay()"
+    >
+      SUBMIT
+    </button>
+  </div>
+  <mat-form-field appearance="fill">
+    <mat-label>Select Date</mat-label>
+    <input matInput [matDatepicker]="picker3" [formControl]="singleDate" />
+    <mat-datepicker-toggle matSuffix [for]="picker3" />
+    <mat-datepicker #picker3 />
+  </mat-form-field>
+
+  <pre>Next Day: {{ nextDay | json }}</pre>
+  <pre>Previous Day: {{ previousDay | json }}</pre>
+</div>
+<mat-divider />
+<div>
+  <div class="header">
+    <p>Is date today or before?</p>
+    <button
+      mat-button
+      mat-raised-button
+      color="primary"
+      (click)="checkIsTodayOrBefore()"
+    >
+      SUBMIT
+    </button>
+  </div>
+  <mat-form-field appearance="fill">
+    <mat-label>Select Date</mat-label>
+    <input matInput [matDatepicker]="picker4" [formControl]="singleDate" />
+    <mat-datepicker-toggle matSuffix [for]="picker4" />
+    <mat-datepicker #picker4 />
+  </mat-form-field>
+
+  <pre>{{ isTodayOrBeforeResult | json }}</pre>
+</div>
+<mat-divider />
+<div>
+  <div class="header">
+    <p>Get hours and minutes from date</p>
+    <button
+      mat-button
+      mat-raised-button
+      color="primary"
+      (click)="getHoursAndMinutes()"
+    >
+      SUBMIT
+    </button>
+  </div>
+  <mat-form-field appearance="fill">
+    <mat-label>Select Date</mat-label>
+    <input matInput [matDatepicker]="picker5" [formControl]="singleDate" />
+    <mat-datepicker-toggle matSuffix [for]="picker5" />
+    <mat-datepicker #picker5 />
+  </mat-form-field>
+
+  <pre>{{ hoursMinutesString | json }}</pre>
+</div>
+<mat-divider />
+<div>
+  <div class="header">
+    <p>Create date from hours and minutes</p>
+    <button
+      mat-button
+      mat-raised-button
+      color="primary"
+      (click)="createDateFromTime()"
+    >
+      SUBMIT
+    </button>
+  </div>
+  <mat-form-field appearance="fill">
+    <mat-label>Enter Time (HH:mm)</mat-label>
+    <input matInput [formControl]="timeInput" />
+  </mat-form-field>
+  <pre>{{ createdDate | json }}</pre>
+
+  <mat-divider></mat-divider>
+  <div class="header">
+    <p>Date in DK Format</p>
+  </div>
+  <mat-slide-toggle (change)="toggleDateFormat($event)">
+    {{ toggleDateText }}
+  </mat-slide-toggle>
+  <pre>Date: {{ formattedCurrentDate }}</pre>
+  <mat-divider></mat-divider>
+
+  <div class="header">
+    <p>Time in DK Format</p>
+  </div>
+  <mat-slide-toggle (change)="toggleTimeFormat($event)">
+    {{ toggleTimeText }}
+  </mat-slide-toggle>
+  <pre>Time: {{ formattedCurrentTime }}</pre>
+  <mat-divider></mat-divider>
+</div>
