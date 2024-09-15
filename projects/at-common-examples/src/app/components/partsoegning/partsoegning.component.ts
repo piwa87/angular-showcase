@@ -39,7 +39,8 @@ export class PartsoegningComponent {
 
   typeHint = 'Angiv type af tilsynet...';
 
-  searchService = (searchTerm: string, selectedType: string) => this.api.searchService(searchTerm, selectedType);
+  searchService = (searchTerm: string, selectedType: string, page: number, size: number) =>
+    this.api.searchService(searchTerm, selectedType, page, size);
 
   onPartSelected(selectedPart: any) {
     this.fg.patchValue({ part: selectedPart });

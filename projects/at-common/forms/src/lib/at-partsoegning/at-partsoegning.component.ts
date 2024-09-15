@@ -32,8 +32,8 @@ export class AtPartsoegningComponent implements OnInit {
   displayedColumns: string[] = [];
 
   totalItems: number = 0; // Total number of items (from the API)
-  pageSize: number = 1; // Default page size
-  currentPage: number = 0; // Default page number
+  pageSize: number = 2; // Default page size
+  currentPage: number = 1; // Default page number
 
   @Input() parttyper: KeyValue<string, string>[] = defaultParttyper;
   @Input({ required: true }) searchService!: (

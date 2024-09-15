@@ -12,12 +12,12 @@ export class PartsoegningApiService extends BaseApiService<Part> {
   baseUrl = 'http://localhost:4200/api';
   url = this.urls.createUrl(this.baseUrl, 'partsoegning');
 
-  searchService(searchTerm: string, selectedType: string, page?: number, size?: number): Observable<Part[]> {
+  searchService(searchTerm: string, selectedType: string, page: number, size: number): Observable<Part[]> {
     const searchUrl = this.urls.createUrlWithQueryParameters(this.baseUrl, 'partsoegning', (queryStringParameters) => {
       queryStringParameters.pushOrAddValue('searchTerm', [searchTerm]);
       queryStringParameters.pushOrReplace('selectedType', selectedType);
-      queryStringParameters.pushOrReplace('page', page ? page : 1);
-      queryStringParameters.pushOrReplace('size', size ? size : 10);
+      queryStringParameters.pushOrReplace('page', page);
+      queryStringParameters.pushOrReplace('size', size);
     });
 
     const penheder: Part[] = [m.mockProduktionsenhed1, m.mockProduktionsenhed2, m.mockProduktionsenhed3];
