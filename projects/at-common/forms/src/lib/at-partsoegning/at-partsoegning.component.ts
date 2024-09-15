@@ -39,8 +39,8 @@ export class AtPartsoegningComponent implements OnInit {
   @Input({ required: true }) searchService!: (
     searchTerm: string,
     selectedType: string,
-    page?: number,
-    size?: number
+    page: number,
+    size: number
   ) => Observable<any>;
 
   @Output() partSelected: EventEmitter<Part | null> = new EventEmitter();
