@@ -1,32 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AtFormsModule, AtMaterialModule } from '@at-common/forms';
 import { takeTruthy } from '@at-common/utils';
-import { catchError, take } from 'rxjs';
+import { catchError } from 'rxjs';
 import { PresentThisComponent } from '../present-this/present-this.component';
-import {
-  CommentModel,
-  CommentsApiService,
-} from './services/comments-api.service';
+import { CommentModel, CommentsApiService } from './services/comments-api.service';
 
 @Component({
   selector: 'app-api-examples',
   standalone: true,
-  imports: [
-    AtFormsModule,
-    AtMaterialModule,
-    CommonModule,
-    PresentThisComponent,
-    ReactiveFormsModule,
-  ],
+  imports: [AtFormsModule, AtMaterialModule, CommonModule, PresentThisComponent, ReactiveFormsModule],
   styleUrl: './api-examples.component.scss',
-  templateUrl: './api-examples.component.html',
+  templateUrl: './api-examples.component.html'
 })
 export class ApiExamplesComponent {
   singleComment: CommentModel = {} as CommentModel;
@@ -36,11 +22,8 @@ export class ApiExamplesComponent {
 
   fb = inject(FormBuilder);
   fg = this.fb.group({
-    commentId: new FormControl<number | null>(null, [
-      Validators.min(1),
-      Validators.max(500),
-    ]),
-    commentBody: new FormControl<string | null>(''),
+    commentId: new FormControl<number | null>(null, [Validators.min(1), Validators.max(500)]),
+    commentBody: new FormControl<string | null>('')
   });
 
   // GET
@@ -53,10 +36,10 @@ export class ApiExamplesComponent {
         catchError((err) => {
           this.singleComment = {
             id: id,
-            body: 'ERROR: ' + err.message,
+            body: 'ERROR: ' + err.message
           } as CommentModel;
           return [];
-        }),
+        })
       )
       .subscribe((comment) => {
         this.singleComment = comment;
@@ -84,7 +67,7 @@ export class ApiExamplesComponent {
     id: 500,
     name: 'John Doe',
     email: 'random@email.com',
-    body: '',
+    body: ''
   };
 
   private updateCommentBody() {
@@ -111,7 +94,7 @@ export class ApiExamplesComponent {
 
   deletedCommentStatus = {
     id: 0,
-    status: 'INIT',
+    status: 'INIT'
   };
 
   deleteComment(id: number) {

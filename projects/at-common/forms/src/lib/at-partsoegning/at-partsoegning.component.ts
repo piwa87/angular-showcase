@@ -31,8 +31,17 @@ export class AtPartsoegningComponent implements OnInit {
   partSearchResults: Part[] = [];
   displayedColumns: string[] = [];
 
+  totalItems: number = 0; // Total number of items (from the API)
+  pageSize: number = 1; // Default page size
+  currentPage: number = 0; // Default page number
+
   @Input() parttyper: KeyValue<string, string>[] = defaultParttyper;
-  @Input({ required: true }) searchService!: (searchTerm: string, selectedType: string) => Observable<any>;
+  @Input({ required: true }) searchService!: (
+    searchTerm: string,
+    selectedType: string,
+    page?: number,
+    size?: number
+  ) => Observable<any>;
 
   @Output() partSelected: EventEmitter<Part | null> = new EventEmitter();
 
@@ -52,7 +61,7 @@ export class AtPartsoegningComponent implements OnInit {
         switchMap((searchTerm) => {
           this.spinnerService.showSpinner();
           const selectedPartType = this.searchForm.controls.selectedPartType.value;
-          return this.searchService(searchTerm, selectedPartType).pipe(
+          return this.searchService(searchTerm, selectedPartType, this.currentPage, this.pageSize).pipe(
             catchError(() => {
               this.spinnerService.hideSpinner();
               return of([]);
@@ -63,6 +72,37 @@ export class AtPartsoegningComponent implements OnInit {
       .subscribe((result) => {
         this.spinnerService.hideSpinner();
         this.partSearchResults = result;
+        this.totalItems = this.partSearchResults.length;
+        this.searchForm.controls.selectedPart.setValue(null);
+        console.log('partSearchResults:', this.partSearchResults);
+      });
+  }
+
+  // Method to handle pagination events
+  onPaginateChange(event: any) {
+    this.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex;
+
+    // Re-trigger the search with the updated pagination info
+    const searchTerm = this.searchForm.controls.searchTerm.value;
+    const selectedPartType = this.searchForm.controls.selectedPartType.value;
+
+    // this.searchService(searchTerm, selectedType, this.currentPage, this.pageSize).subscribe((response) => {
+    //   this.partSearchResults = response.data;
+    //   this.totalItems = response.totalItems;
+    // });
+
+    this.searchService(searchTerm, selectedPartType, this.currentPage, this.pageSize)
+      .pipe(
+        catchError(() => {
+          this.spinnerService.hideSpinner();
+          return of([]);
+        })
+      )
+      .subscribe((result) => {
+        this.spinnerService.hideSpinner();
+        this.partSearchResults = result;
+        this.totalItems = this.partSearchResults.length;
         this.searchForm.controls.selectedPart.setValue(null);
         console.log('partSearchResults:', this.partSearchResults);
       });
