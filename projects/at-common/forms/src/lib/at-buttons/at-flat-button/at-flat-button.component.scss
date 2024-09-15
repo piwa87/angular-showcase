@@ -1,0 +1,6 @@
+@import '../../../../../../../dist/at-common/styling/at-styles/colors.scss';
+
+:host .button {
+  color: var(--button-color, $white-color);
+  background-color: var(--button-background-color, $primary-color);
+}

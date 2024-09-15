@@ -8,10 +8,10 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
   standalone: true,
   imports: [RouterOutlet, CommonModule, NavBarComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+  styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'ATFrontendCommon - Examples';
+  title = 'Angular Showcase';
   constructor(private renderer: Renderer2) {
     this.renderer.addClass(document.body, 'mat-typography');
   }

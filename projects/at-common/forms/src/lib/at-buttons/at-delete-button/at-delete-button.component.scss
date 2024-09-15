@@ -1,0 +1,24 @@
+@import '../../../../../../../dist/at-common/styling/at-styles/_colors.scss';
+
+.at-delete-button {
+  width: 40px;
+  height: 40px;
+
+  border: 1px solid $primary-color;
+  border-radius: 50%;
+  background: $white-color;
+
+  clip-path: circle(20px at center);
+  mat-icon {
+    color: $primary-color;
+    transform: translate(-4.5px, -4.5px);
+  }
+}
+
+.at-delete-button:disabled {
+  border-color: $label-color;
+  cursor: not-allowed;
+  mat-icon {
+    color: $label-color;
+  }
+}

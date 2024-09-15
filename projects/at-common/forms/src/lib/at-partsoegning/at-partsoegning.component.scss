@@ -1,0 +1,59 @@
+@import '../../../../../../dist/at-common/styling/at-styles/_colors.scss';
+
+table {
+  width: 100%;
+}
+
+.mat-mdc-header-cell {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.mat-mdc-cell {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.part {
+  padding-bottom: 24px;
+}
+
+.grey-icon {
+  color: $icon-grey;
+}
+
+.vaelg-button {
+  color: $white-color;
+  background-color: $primary-color;
+  height: 32px;
+}
+
+// Columns styling
+
+.mat-column-navn {
+  max-width: 320px;
+}
+
+.mat-column-pNummer {
+  max-width: 10vw;
+}
+
+.mat-column-cvrNummer {
+  max-width: 10vw;
+}
+
+.mat-column-adresse {
+  max-width: 320px;
+}
+
+.mat-column-antalAnsatte {
+  max-width: 10vw;
+}
+
+.mat-column-vaelg {
+  max-width: 10vw;
+}
+
+.mat-column-delete {
+  max-width: 10vw;
+}

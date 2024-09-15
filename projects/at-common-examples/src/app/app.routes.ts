@@ -3,6 +3,7 @@ import { ApiExamplesComponent } from './components/api-examples/api-examples.com
 import { LoginExampleComponent } from './components/login-example/login-example.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { MultiFormsComponent } from './components/multi-forms/multi-forms.component';
+import { PartsoegningComponent } from './components/partsoegning/partsoegning.component';
 import { ServicesComponent } from './components/services/services.component';
 import { SingleFormsComponent } from './components/single-forms/single-forms.component';
 import { StartComponent } from './components/start/start.component';
@@ -13,6 +14,7 @@ const utilRoutes: Routes = [{ path: '', pathMatch: 'full', redirectTo: 'start' }
 
 export const navBarRoutes: Routes = [
   { path: 'start', component: StartComponent },
+  { path: 'partsøgning', component: PartsoegningComponent },
   { path: 'single-forms', component: SingleFormsComponent },
   { path: 'multi-forms', component: MultiFormsComponent },
   { path: 'utils', component: UtilsComponent },

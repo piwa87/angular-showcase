@@ -1,0 +1,10 @@
+<button mat-stroked-button class="button" [disableRipple]="true">
+  @if (icon) {
+    <mat-icon class="material-icons-outlined">{{ icon }}</mat-icon>
+  }
+  {{ text }}
+
+  @if (counter) {
+    <div class="counter">{{ counter }}</div>
+  }
+</button>

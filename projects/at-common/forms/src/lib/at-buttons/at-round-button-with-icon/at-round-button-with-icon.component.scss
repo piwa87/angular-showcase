@@ -1,0 +1,16 @@
+@import '../../../../../../../dist/at-common/styling/at-styles/_colors.scss';
+
+:host .button {
+  width: 36px;
+  height: 36px;
+  padding: 5px 0 0 0;
+  border-radius: 50%;
+  color: var(--button-color, $white-color);
+  background-color: var(--button-background-color, $primary-color);
+}
+
+:host .button mat-icon {
+  font-size: 20px;
+  height: 20px;
+  width: 20px;
+}

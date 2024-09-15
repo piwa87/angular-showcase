@@ -1,0 +1,11 @@
+<div class="spinner-wrapper" *ngIf="inlineSpinner; else unwrapped">
+  <ng-content *ngTemplateOutlet="unwrapped"></ng-content>
+</div>
+
+<ng-template #unwrapped>
+  <mat-progress-spinner
+    mode="indeterminate"
+    class="color"
+    [ngClass]="inlineSpinner ? 'inline' : 'centered'"
+    [diameter]="diameter"></mat-progress-spinner>
+</ng-template>

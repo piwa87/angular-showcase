@@ -1,0 +1,81 @@
+<div class="part">
+  <form [formGroup]="searchForm">
+    <mat-form-field appearance="fill" hideRequiredMarker class="at-width-40">
+      <mat-label>Vælg partstype</mat-label>
+      <mat-select formControlName="selectedPartType">
+        @for (part of parttyper; track $index) {
+          <mat-option [value]="part.key">
+            {{ part.value }}
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <br />
+    <mat-form-field appearance="fill" hideRequiredMarker class="at-width-40">
+      <input matInput placeholder="Fremsøg part" formControlName="searchTerm" />
+      <mat-icon class="grey-icon" matSuffix>search</mat-icon>
+    </mat-form-field>
+  </form>
+
+  @if (partSearchResults.length > 0) {
+    <mat-table
+      [dataSource]="
+        this.searchForm.controls.selectedPart.value ? [this.searchForm.controls.selectedPart.value] : partSearchResults
+      ">
+      <ng-container matColumnDef="navn">
+        <mat-header-cell *matHeaderCellDef>Navn</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.navn }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="valgtPart">
+        <mat-header-cell *matHeaderCellDef>Valgt part</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.navn }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="pNummer">
+        <mat-header-cell *matHeaderCellDef>P-Nummer</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.pNummer }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="cvrNummer">
+        <mat-header-cell *matHeaderCellDef>CVR-Nummer</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.cvrNummer }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.brugervendtNoegle }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="adresse">
+        <mat-header-cell *matHeaderCellDef>Adresse</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.adresse }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="antalAnsatte">
+        <mat-header-cell *matHeaderCellDef>Antal ansatte</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.antalAnsatte }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="vaelg">
+        <mat-header-cell *matHeaderCellDef>Vælg</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <button mat-flat-button color="primary" class="vaelg-button" (click)="selectPart(element)">Vælg</button>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="delete">
+        <mat-header-cell *matHeaderCellDef>Slet</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          @if (this.searchForm.controls.selectedPart.value) {
+            <at-delete-button (click)="unselectPart()" />
+          }
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns" />
+      <mat-row *matRowDef="let row; columns: displayedColumns" />
+    </mat-table>
+  }
+  <!-- <pre>{{ this.searchForm.value | json }}</pre> -->
+</div>
