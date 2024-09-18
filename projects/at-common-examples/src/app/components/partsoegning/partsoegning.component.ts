@@ -42,7 +42,7 @@ export class PartsoegningComponent {
   searchService = (searchTerm: string, selectedType: string, page: number, size: number) =>
     this.api.searchService(searchTerm, selectedType, page, size);
 
-  onPartSelected(selectedPart: any) {
+  onPartSelected(selectedPart: Part | null): void {
     this.fg.patchValue({ part: selectedPart });
   }
 }

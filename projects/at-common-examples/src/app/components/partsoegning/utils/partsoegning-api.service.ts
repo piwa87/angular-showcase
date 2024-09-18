@@ -1,47 +1,56 @@
+import { HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BaseApiService } from '@at-common/services';
-import { Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { Observable, map } from 'rxjs';
 import { Part } from '../../../../../../at-common/forms/src/lib/at-partsoegning/part.model';
-import * as m from './partsoegning.mock-data';
+
+export interface PaginationInfo {
+  TotalCount: number;
+  HasNextPage: boolean;
+  TotalPages: number;
+  HasPreviousPage: boolean;
+  Page: number;
+  PageSize: number;
+}
+export interface PartsoegningResponse {
+  data: Part[];
+  paginationInfo: PaginationInfo;
+}
 
 @Injectable({
   providedIn: 'root'
 })
-export class PartsoegningApiService extends BaseApiService<Part> {
-  baseUrl = 'http://localhost:4200/api';
-  url = this.urls.createUrl(this.baseUrl, 'partsoegning');
+export class PartsoegningApiService extends BaseApiService<PartsoegningResponse> {
+  baseUrl = '/api';
 
-  searchService(searchTerm: string, selectedType: string, page: number, size: number): Observable<Part[]> {
+  searchService(
+    searchTerm: string,
+    selectedType: string,
+    page: number,
+    size: number
+  ): Observable<PartsoegningResponse> {
+    this.showActualUrlInConsole(searchTerm, selectedType, page + 1, size);
+
+    const url = `https://requestly.tech/api/mockv2/searchPart/${selectedType}?username=user1726492686289&`;
+
+    return this.httpClient.get<Part[]>(url, { observe: 'response' }).pipe(
+      map((response: HttpResponse<Part[]>) => {
+        const result: PartsoegningResponse = {
+          data: response.body ?? [],
+          paginationInfo: JSON.parse(response.headers.get('x-pagination') ?? '')
+        };
+        return result;
+      })
+    );
+  }
+
+  private showActualUrlInConsole(searchTerm: string, selectedType: string, page: number, size: number) {
     const searchUrl = this.urls.createUrlWithQueryParameters(this.baseUrl, 'partsoegning', (queryStringParameters) => {
-      queryStringParameters.pushOrAddValue('searchTerm', [searchTerm]);
+      queryStringParameters.pushOrReplace('searchTerm', searchTerm);
       queryStringParameters.pushOrReplace('selectedType', selectedType);
       queryStringParameters.pushOrReplace('page', page);
       queryStringParameters.pushOrReplace('size', size);
     });
-
-    const penheder: Part[] = [m.mockProduktionsenhed1, m.mockProduktionsenhed2, m.mockProduktionsenhed3];
-    const byggepladser: Part[] = [m.mockByggeplads1, m.mockByggeplads2, m.mockByggeplads3];
-    const lokationer: Part[] = [m.mockLokation1, m.mockLokation2, m.mockLokation3];
-
-    let result: Part[] = [];
-
-    switch (selectedType) {
-      case 'produktionsenhed':
-        result = penheder;
-        break;
-      case 'byggeplads':
-        result = byggepladser;
-        break;
-      case 'lokation':
-        result = lokationer;
-        break;
-      default:
-        console.warn('Unknown selectedType:', selectedType);
-    }
-
-    console.log('[FindPartMockService] API call with URL:', searchUrl);
-
-    return of(result).pipe(delay(200));
+    console.log('True URL: ', searchUrl);
   }
 }

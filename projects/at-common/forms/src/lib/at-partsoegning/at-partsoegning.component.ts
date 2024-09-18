@@ -3,10 +3,11 @@ import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AtMaterialModule } from '@at-common/forms';
 import { SpinnerService } from '@at-common/services';
-import { Observable, catchError, debounceTime, distinctUntilChanged, filter, of, switchMap } from 'rxjs';
+import { Observable, catchError, debounceTime, distinctUntilChanged, filter, of, switchMap, timeout } from 'rxjs';
+import { PartsoegningResponse } from '../../../../../at-common-examples/src/app/components/partsoegning/utils/partsoegning-api.service';
 import { AtDeleteButtonComponent } from '../at-buttons/at-delete-button/at-delete-button.component';
 import { AtDividerComponent } from '../at-divider/at-divider.component';
-import { Part } from './part.model';
+import { Adresse, Part } from './part.model';
 
 @Component({
   selector: 'at-partsoegning',
@@ -20,20 +21,23 @@ export class AtPartsoegningComponent implements OnInit {
 
   fb = inject(FormBuilder);
   searchForm = this.fb.group({
-    selectedPartType: new FormControl<string>('produktionsenhed', {
+    selectedPartType: new FormControl<string>('', {
       nonNullable: true,
       validators: [Validators.required]
     }),
-    searchTerm: new FormControl<string>('john', { nonNullable: true }),
+    searchTerm: new FormControl<string>('', { nonNullable: true }),
     selectedPart: new FormControl<Part | null>(null)
   });
 
   partSearchResults: Part[] = [];
   displayedColumns: string[] = [];
 
-  totalItems: number = 0; // Total number of items (from the API)
-  pageSize: number = 2; // Default page size
-  currentPage: number = 1; // Default page number
+  pageSize: number = 10;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
+  currentPage: number = 0;
+  totalCount: number = 0;
+  hasNextPage: boolean = false;
+  hasPreviousPage: boolean = false;
 
   @Input() parttyper: KeyValue<string, string>[] = defaultParttyper;
   @Input({ required: true }) searchService!: (
@@ -41,7 +45,7 @@ export class AtPartsoegningComponent implements OnInit {
     selectedType: string,
     page: number,
     size: number
-  ) => Observable<any>;
+  ) => Observable<PartsoegningResponse>;
 
   @Output() partSelected: EventEmitter<Part | null> = new EventEmitter();
 
@@ -64,47 +68,50 @@ export class AtPartsoegningComponent implements OnInit {
           return this.searchService(searchTerm, selectedPartType, this.currentPage, this.pageSize).pipe(
             catchError(() => {
               this.spinnerService.hideSpinner();
-              return of([]);
+              return of({} as PartsoegningResponse);
             })
           );
         })
       )
-      .subscribe((result) => {
+      .subscribe((response) => {
+        this.partSearchResults = response.data!;
         this.spinnerService.hideSpinner();
-        this.partSearchResults = result;
-        this.totalItems = this.partSearchResults.length;
         this.searchForm.controls.selectedPart.setValue(null);
         console.log('partSearchResults:', this.partSearchResults);
+        this.totalCount = response.paginationInfo?.TotalCount || 0;
+        this.hasNextPage = response.paginationInfo?.HasNextPage || false;
+        this.hasPreviousPage = response.paginationInfo?.HasPreviousPage || false;
       });
   }
 
-  // Method to handle pagination events
   onPaginateChange(event: any) {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex;
 
-    // Re-trigger the search with the updated pagination info
     const searchTerm = this.searchForm.controls.searchTerm.value;
     const selectedPartType = this.searchForm.controls.selectedPartType.value;
-
-    // this.searchService(searchTerm, selectedType, this.currentPage, this.pageSize).subscribe((response) => {
-    //   this.partSearchResults = response.data;
-    //   this.totalItems = response.totalItems;
-    // });
+    this.spinnerService.showSpinner();
 
     this.searchService(searchTerm, selectedPartType, this.currentPage, this.pageSize)
       .pipe(
-        catchError(() => {
+        timeout(4000),
+        catchError((error) => {
           this.spinnerService.hideSpinner();
-          return of([]);
+          if (error.name === 'TimeoutError') {
+            console.log('Search request timed out after 5 seconds.');
+          } else {
+            console.log('An error occurred:', error);
+          }
+          return of({} as PartsoegningResponse);
         })
       )
-      .subscribe((result) => {
+      .subscribe((response) => {
+        this.partSearchResults = response.data ?? [];
         this.spinnerService.hideSpinner();
-        this.partSearchResults = result;
-        this.totalItems = this.partSearchResults.length;
-        this.searchForm.controls.selectedPart.setValue(null);
         console.log('partSearchResults:', this.partSearchResults);
+        this.totalCount = response.paginationInfo?.TotalCount || 0;
+        this.hasNextPage = response.paginationInfo?.HasNextPage || false;
+        this.hasPreviousPage = response.paginationInfo?.HasPreviousPage || false;
       });
   }
 
@@ -120,7 +127,10 @@ export class AtPartsoegningComponent implements OnInit {
   }
 
   initSelectedPartTypeListener(): void {
-    this.searchForm.controls.selectedPartType.valueChanges.subscribe((selectedType) => {
+    const formControl = this.searchForm.controls.selectedPartType;
+    this.toggleSearchTermControl(formControl.value);
+    formControl.valueChanges.subscribe((selectedType) => {
+      this.toggleSearchTermControl(selectedType);
       this.setDisplayedColumns(selectedType);
       this.partSearchResults = [];
     });
@@ -147,7 +157,7 @@ export class AtPartsoegningComponent implements OnInit {
         this.displayedColumns = ['navn', 'id', 'adresse', 'vaelg'];
         break;
       case 'lokation':
-        this.displayedColumns = ['navn', 'id', 'adresse', 'vaelg'];
+        this.displayedColumns = ['navn', 'id', 'adresse-lokation', 'vaelg'];
         break;
       default:
         this.displayedColumns = ['navn', 'pNummer', 'cvrNummer', 'adresse', 'antalAnsatte', 'vaelg'];
@@ -156,18 +166,36 @@ export class AtPartsoegningComponent implements OnInit {
   }
 
   setDisplayedColumnsWhenPartIsSelected(): void {
+    this.displayedColumns[0] = 'valgtPart';
     this.displayedColumns.pop();
     this.displayedColumns.push('delete');
   }
 
   setDisplayedColumnsWhenPartIsUnselected(): void {
+    this.displayedColumns[0] = 'navn';
     this.displayedColumns.pop();
     this.displayedColumns.push('vaelg');
+  }
+
+  toggleSearchTermControl(selectedPartTypeValue: string): void {
+    if (!selectedPartTypeValue) {
+      this.searchForm.controls.searchTerm.disable({ emitEvent: false });
+    } else {
+      this.searchForm.controls.searchTerm.enable({ emitEvent: false });
+    }
+  }
+
+  public mapAdresseToString(adresse: Adresse): string {
+    return `${adresse.vejnavn} ${adresse.husnummerFra}, ${adresse.postnummer} ${adresse.postdistrikt}`;
+  }
+  public mapRutAdresseToString(adresse: Adresse): string {
+    return `${adresse.vejnavn} ${adresse.husnummerFra}, ${adresse.postnummer} ${adresse.bynavn}`;
   }
 }
 
 const defaultParttyper: KeyValue<string, string>[] = [
   { key: 'produktionsenhed', value: 'Produktionsenhed' },
   { key: 'byggeplads', value: 'Byggeplads' },
-  { key: 'lokation', value: 'Lokation' }
+  { key: 'lokation', value: 'Lokation' },
+  { key: 'ukendt', value: 'Ukendt' }
 ];

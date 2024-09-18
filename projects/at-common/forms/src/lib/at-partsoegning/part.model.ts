@@ -20,8 +20,7 @@ export interface Produktionsenhed {
   maaned: number;
   antalAarsvaerk: number;
   antalAnsatte: number;
-  // adresse: Adresse;
-  adresse: string;
+  adresse: Adresse;
 }
 
 export interface Byggeplads {
@@ -38,7 +37,7 @@ export interface Byggeplads {
   dobbeltTilsynsfoerende: boolean;
   forventetStartDato: string; // Consider changing to Date if needed
   forventetSlutDato: string; // Consider changing to Date if needed
-  adresse: string;
+  adresse: Adresse;
 }
 
 export interface Lokation {
@@ -52,9 +51,8 @@ export interface Lokation {
   gyldigFra: string; // Consider changing to Date if needed
   gyldigTil: string; // Consider changing to Date if needed
   kildeKode: string;
-  adresse: string;
-  // danskAdresse: Adresse;
-  // rutAdresse: Adresse;
+  danskAdresse: Adresse;
+  rutAdresse: Adresse;
 }
 
 export interface Ukendt {

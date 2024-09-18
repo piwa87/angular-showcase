@@ -10,11 +10,13 @@
         }
       </mat-select>
     </mat-form-field>
-    <br />
-    <mat-form-field appearance="fill" hideRequiredMarker class="at-width-40">
-      <input matInput placeholder="Fremsøg part" formControlName="searchTerm" />
-      <mat-icon class="grey-icon" matSuffix>search</mat-icon>
-    </mat-form-field>
+    @if (!(this.searchForm.controls.selectedPartType.value === 'ukendt')) {
+      <br />
+      <mat-form-field appearance="fill" hideRequiredMarker class="at-width-40">
+        <input matInput placeholder="Fremsøg part" formControlName="searchTerm" />
+        <mat-icon class="grey-icon" matSuffix>search</mat-icon>
+      </mat-form-field>
+    }
   </form>
 
   @if (partSearchResults.length > 0) {
@@ -49,7 +51,12 @@
 
       <ng-container matColumnDef="adresse">
         <mat-header-cell *matHeaderCellDef>Adresse</mat-header-cell>
-        <mat-cell *matCellDef="let element">{{ element.adresse }}</mat-cell>
+        <mat-cell *matCellDef="let element">{{ mapAdresseToString(element.adresse) }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="adresse-lokation">
+        <mat-header-cell *matHeaderCellDef>Adresse</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ mapRutAdresseToString(element.rutAdresse) }}</mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="antalAnsatte">
@@ -76,12 +83,13 @@
       <mat-header-row *matHeaderRowDef="displayedColumns" />
       <mat-row *matRowDef="let row; columns: displayedColumns" />
     </mat-table>
-    <!-- Add the paginator below the table -->
-    <mat-paginator
-      [length]="totalItems"
-      [pageSize]="pageSize"
-      [pageSizeOptions]="[1, 2, 3, 4]"
-      (page)="onPaginateChange($event)" />
+    @if (!this.searchForm.controls.selectedPart.value) {
+      <mat-paginator
+        [length]="totalCount"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="pageSizeOptions"
+        (page)="onPaginateChange($event)" />
+    }
   }
   <!-- <pre>{{ this.searchForm.value | json }}</pre> -->
 </div>

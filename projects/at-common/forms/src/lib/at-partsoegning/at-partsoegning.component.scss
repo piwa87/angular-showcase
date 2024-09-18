@@ -30,9 +30,9 @@ table {
 
 // Columns styling
 
-.mat-column-navn {
-  max-width: 320px;
-}
+// .mat-column-navn {
+//   max-width: 320px;
+// }
 
 .mat-column-pNummer {
   max-width: 10vw;
@@ -42,9 +42,13 @@ table {
   max-width: 10vw;
 }
 
-.mat-column-adresse {
-  max-width: 320px;
+.mat-column-id {
+  max-width: 10vw;
 }
+
+// .mat-column-adresse {
+//   max-width: 420px;
+// }
 
 .mat-column-antalAnsatte {
   max-width: 10vw;
