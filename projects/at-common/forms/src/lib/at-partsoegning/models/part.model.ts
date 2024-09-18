@@ -1,3 +1,7 @@
+import { Adresse } from './adresse.model';
+import { Koordinator } from './koordinator.model';
+import { Tilknytning } from './tilknytning.model';
+
 export type Part = Produktionsenhed | Byggeplads | Lokation | Ukendt;
 
 export interface Produktionsenhed {
@@ -9,8 +13,8 @@ export interface Produktionsenhed {
   berigetEmail: string;
   berigetTelefon: string;
   status: boolean;
-  gyldigFra: string; // Consider changing to Date if needed
-  gyldigTil: string; // Consider changing to Date if needed
+  gyldigFra: string;
+  gyldigTil: string;
   sikkerhedsmarkeringstype: string;
   sikkerhedsmarkeret: boolean;
   brancheNr: number;
@@ -35,9 +39,11 @@ export interface Byggeplads {
   kalender: string;
   tidPaaDagen: string;
   dobbeltTilsynsfoerende: boolean;
-  forventetStartDato: string; // Consider changing to Date if needed
-  forventetSlutDato: string; // Consider changing to Date if needed
+  forventetStartDato: string;
+  forventetSlutDato: string;
   adresse: Adresse;
+  koordinator: Koordinator;
+  tilknutninger: Tilknytning[];
 }
 
 export interface Lokation {
@@ -48,8 +54,8 @@ export interface Lokation {
   berigetEmail: string;
   aktiv: boolean;
   antalAnsatte: number;
-  gyldigFra: string; // Consider changing to Date if needed
-  gyldigTil: string; // Consider changing to Date if needed
+  gyldigFra: string;
+  gyldigTil: string;
   kildeKode: string;
   danskAdresse: Adresse;
   rutAdresse: Adresse;
@@ -57,38 +63,4 @@ export interface Lokation {
 
 export interface Ukendt {
   ukendt: boolean;
-}
-
-export interface Adresse {
-  bogstavFra: string;
-  bogstavTil: string;
-  bynavn: string;
-  coNavn: string;
-  etage: string;
-  fritekst: string;
-  husnummerFra: string;
-  husnummerTil: string;
-  kommuneKode: string;
-  landekode: string;
-  postboks: string;
-  postdistrikt: string;
-  postnummer: string;
-  sideDoer: string;
-  vejkode: string;
-  vejnavn: string;
-  breddegrad: number;
-  laengdegrad: number;
-  dawaId: string;
-}
-
-export interface Koordinator {
-  navn: string;
-  email: string;
-  telefon: string;
-}
-
-export interface Tilknytning {
-  partType: number;
-  brugervendtNoegle: string;
-  relation: string;
 }

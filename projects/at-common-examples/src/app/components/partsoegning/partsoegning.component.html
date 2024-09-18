@@ -1,8 +1,9 @@
 <div class="site">
   <form [formGroup]="fg">
     <at-h2 atPrimaryColor>Form example using AtPartsoegning</at-h2>
-    <at-partsoegning [searchService]="searchService" (partSelected)="onPartSelected($event)" />
-    <at-select fcName="type" label="Vælg type" [items]="typeItems" class="at-width-40" />
+    <at-partsoegning [partSearchUrl]="partSearchUrl" (partSelected)="onPartSelected($event)" />
+    <at-select fcName="type" label="Vælg type" [items]="typeItems" class="at-width-80" />
+    <br />
   </form>
   <p>Form value:</p>
   <pre>{{ this.fg.value | json }}</pre>

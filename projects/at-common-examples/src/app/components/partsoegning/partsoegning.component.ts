@@ -1,12 +1,10 @@
 import { CommonModule, KeyValue } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
-import { AtFormsModule, AtMaterialModule } from '@at-common/forms';
+import { AtFormsModule, AtMaterialModule, AtPartsoegningComponent } from '@at-common/forms';
 import { PrimaryColorDirective } from '@at-common/styling';
 import { AtTextsModule } from '@at-common/texts';
-import { AtPartsoegningComponent } from '../../../../../at-common/forms/src/lib/at-partsoegning/at-partsoegning.component';
-import { Part } from '../../../../../at-common/forms/src/lib/at-partsoegning/part.model';
-import { PartsoegningApiService } from './utils/partsoegning-api.service';
+import { Part } from '../../../../../at-common/forms/src/lib/at-partsoegning/models/part.model';
 
 @Component({
   selector: 'app-partsoegning',
@@ -24,7 +22,7 @@ import { PartsoegningApiService } from './utils/partsoegning-api.service';
   styleUrl: './partsoegning.component.scss'
 })
 export class PartsoegningComponent {
-  api = inject(PartsoegningApiService);
+  partSearchUrl = 'https://my-api.com/searchPart';
 
   fb = inject(FormBuilder);
   fg = this.fb.group({
@@ -38,9 +36,6 @@ export class PartsoegningComponent {
   ];
 
   typeHint = 'Angiv type af tilsynet...';
-
-  searchService = (searchTerm: string, selectedType: string, page: number, size: number) =>
-    this.api.searchService(searchTerm, selectedType, page, size);
 
   onPartSelected(selectedPart: Part | null): void {
     this.fg.patchValue({ part: selectedPart });
