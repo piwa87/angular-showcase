@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { AtMaterialModule } from '@at-common/forms';
+import { AtMaterialModule } from '../../at-material.module';
 
 @Component({
   selector: 'at-delete-button',

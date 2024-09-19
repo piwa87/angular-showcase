@@ -2,33 +2,24 @@ import { HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BaseApiService } from '@at-common/services';
 import { Observable, map } from 'rxjs';
-import { Part } from '../../../../../../at-common/forms/src/lib/at-partsoegning/part.model';
-
-export interface PaginationInfo {
-  TotalCount: number;
-  HasNextPage: boolean;
-  TotalPages: number;
-  HasPreviousPage: boolean;
-  Page: number;
-  PageSize: number;
-}
-export interface PartsoegningResponse {
-  data: Part[];
-  paginationInfo: PaginationInfo;
-}
+import { Part } from '../../../../../../at-common/forms/src/lib/at-partsoegning/models/part.model';
+import { PartsoegningResponse } from '../models/pagination.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PartsoegningApiService extends BaseApiService<PartsoegningResponse> {
-  baseUrl = '/api';
+  private baseUrl: string = '';
 
-  searchService(
-    searchTerm: string,
-    selectedType: string,
-    page: number,
-    size: number
-  ): Observable<PartsoegningResponse> {
+  setBaseUrl(baseUrl: string): void {
+    this.baseUrl = baseUrl;
+  }
+
+  searchParts(searchTerm: string, selectedType: string, page: number, size: number): Observable<PartsoegningResponse> {
+    if (this.baseUrl === '') {
+      throw new Error('Base URL is not set');
+    }
+
     this.showActualUrlInConsole(searchTerm, selectedType, page + 1, size);
 
     const url = `https://requestly.tech/api/mockv2/searchPart/${selectedType}?username=user1726492686289&`;

@@ -74,9 +74,7 @@
       <ng-container matColumnDef="delete">
         <mat-header-cell *matHeaderCellDef>Slet</mat-header-cell>
         <mat-cell *matCellDef="let element">
-          @if (this.searchForm.controls.selectedPart.value) {
-            <at-delete-button (click)="unselectPart()" />
-          }
+          <at-delete-button class="delete-button" (click)="unselectPart()" />
         </mat-cell>
       </ng-container>
 

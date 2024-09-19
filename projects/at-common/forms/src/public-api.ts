@@ -8,6 +8,7 @@ export * from './lib/at-forms-single/at-radio-group/at-radio-group.component';
 export * from './lib/at-forms-single/at-select/at-select.component';
 export * from './lib/at-forms-single/at-text-input/at-text-input-custom-errors.component';
 export * from './lib/at-forms-single/at-text-input/at-text-input.component';
+export * from './lib/at-partsoegning/at-partsoegning.component';
 
 export * from './lib/at-forms.module';
 export * from './lib/at-material.module';

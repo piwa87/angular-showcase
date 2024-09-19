@@ -1,13 +1,15 @@
 import { CommonModule, KeyValue } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AtMaterialModule } from '@at-common/forms';
 import { SpinnerService } from '@at-common/services';
-import { Observable, catchError, debounceTime, distinctUntilChanged, filter, of, switchMap, timeout } from 'rxjs';
-import { PartsoegningResponse } from '../../../../../at-common-examples/src/app/components/partsoegning/utils/partsoegning-api.service';
+import { catchError, debounceTime, distinctUntilChanged, filter, of, switchMap, timeout } from 'rxjs';
 import { AtDeleteButtonComponent } from '../at-buttons/at-delete-button/at-delete-button.component';
 import { AtDividerComponent } from '../at-divider/at-divider.component';
-import { Adresse, Part } from './part.model';
+import { AtMaterialModule } from '../at-material.module';
+import { Adresse } from './models/adresse.model';
+import { PartsoegningResponse } from './models/pagination.model';
+import { Part } from './models/part.model';
+import { PartsoegningApiService } from './services/partsoegning-api.service';
 
 @Component({
   selector: 'at-partsoegning',
@@ -17,6 +19,7 @@ import { Adresse, Part } from './part.model';
   styleUrl: './at-partsoegning.component.scss'
 })
 export class AtPartsoegningComponent implements OnInit {
+  apiService = inject(PartsoegningApiService);
   spinnerService = inject(SpinnerService);
 
   fb = inject(FormBuilder);
@@ -40,16 +43,11 @@ export class AtPartsoegningComponent implements OnInit {
   hasPreviousPage: boolean = false;
 
   @Input() parttyper: KeyValue<string, string>[] = defaultParttyper;
-  @Input({ required: true }) searchService!: (
-    searchTerm: string,
-    selectedType: string,
-    page: number,
-    size: number
-  ) => Observable<PartsoegningResponse>;
-
+  @Input({ required: true }) partSearchUrl!: string;
   @Output() partSelected: EventEmitter<Part | null> = new EventEmitter();
 
   ngOnInit(): void {
+    this.apiService.setBaseUrl(this.partSearchUrl);
     this.initSearchListener();
     this.initSelectedPartListener();
     this.initSelectedPartTypeListener();
@@ -65,7 +63,7 @@ export class AtPartsoegningComponent implements OnInit {
         switchMap((searchTerm) => {
           this.spinnerService.showSpinner();
           const selectedPartType = this.searchForm.controls.selectedPartType.value;
-          return this.searchService(searchTerm, selectedPartType, this.currentPage, this.pageSize).pipe(
+          return this.apiService.searchParts(searchTerm, selectedPartType, this.currentPage, this.pageSize).pipe(
             catchError(() => {
               this.spinnerService.hideSpinner();
               return of({} as PartsoegningResponse);
@@ -92,13 +90,15 @@ export class AtPartsoegningComponent implements OnInit {
     const selectedPartType = this.searchForm.controls.selectedPartType.value;
     this.spinnerService.showSpinner();
 
-    this.searchService(searchTerm, selectedPartType, this.currentPage, this.pageSize)
+    this.apiService
+      .searchParts(searchTerm, selectedPartType, this.currentPage, this.pageSize)
       .pipe(
         timeout(4000),
         catchError((error) => {
           this.spinnerService.hideSpinner();
           if (error.name === 'TimeoutError') {
             console.log('Search request timed out after 5 seconds.');
+            return of({} as PartsoegningResponse);
           } else {
             console.log('An error occurred:', error);
           }
@@ -133,6 +133,7 @@ export class AtPartsoegningComponent implements OnInit {
       this.toggleSearchTermControl(selectedType);
       this.setDisplayedColumns(selectedType);
       this.partSearchResults = [];
+      this.searchForm.controls.searchTerm.setValue('');
     });
   }
 
@@ -188,6 +189,7 @@ export class AtPartsoegningComponent implements OnInit {
   public mapAdresseToString(adresse: Adresse): string {
     return `${adresse.vejnavn} ${adresse.husnummerFra}, ${adresse.postnummer} ${adresse.postdistrikt}`;
   }
+
   public mapRutAdresseToString(adresse: Adresse): string {
     return `${adresse.vejnavn} ${adresse.husnummerFra}, ${adresse.postnummer} ${adresse.bynavn}`;
   }
